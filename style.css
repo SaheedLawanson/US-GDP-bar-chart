@@ -1,0 +1,25 @@
+body {
+    padding: 5%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+svg {
+    background-color: wheat;
+    border-radius: 30px;
+}
+
+text {
+    font-family: verdana;
+}
+
+.bar {
+    fill: rgb(99,192,255);
+}
+
+.bar:hover {
+    fill: white;
+}
