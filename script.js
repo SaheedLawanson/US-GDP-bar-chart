@@ -20,10 +20,12 @@ const svg = d3.select('svg')
 
 // Create scales
 let generateScales = () => {
+    // Scale for the height of the bars
     heightScale = d3.scaleLinear()
                 .domain([0, d3.max(dataset, d => d[1])])
                 .range([0, (height-2*padding)])
 
+    
     xScale = d3.scaleLinear()
                 .domain([0, dataset.length-1])
                 .range([padding, width - padding])
@@ -37,6 +39,7 @@ let generateScales = () => {
                     .domain([d3.min(dateArray), d3.max(dateArray)])
                     .range([padding, width-padding])
 }
+
 
 let drawBars = () => {
     function quarter (month) {
@@ -53,6 +56,7 @@ let drawBars = () => {
                         .style('width', 'auto')
                         .style('height', 'auto')
 
+    // Creating and modifying rect elements for each data point
     svg.selectAll('rect')
         .data(dataset)
         .enter()
@@ -64,6 +68,8 @@ let drawBars = () => {
         .attr('height', d => heightScale(d[1]))
         .attr('x', (d,i) => xScale(i))
         .attr('y', d => height-padding-heightScale(d[1]))
+
+        // Display tooltip text on mouse over event
         .on('mouseover', d => {
             d = d.srcElement.__data__
             tooltip.transition()
@@ -73,6 +79,8 @@ let drawBars = () => {
 
             document.querySelector('#tooltip').setAttribute('data-date', d[0])
         })
+
+        // Hide tooltip text on mouse out event
         .on('mouseout', d => {
             tooltip.transition()
                     .style('visibility', 'hidden')
@@ -81,6 +89,7 @@ let drawBars = () => {
 
 }
 
+// Builds axes on the generated scales
 let generateAxes = () => {
     let xAxis = d3.axisBottom(xAxisScale)
     svg.append('g')
@@ -95,7 +104,7 @@ let generateAxes = () => {
         .attr('transform', 'translate('+padding+', 0)')
 }
 
-// Pulling API data and plotting
+// Pulling API data and running the pipeline
 req.open('GET', url, true)
 req.send()
 req.onload = () => {
